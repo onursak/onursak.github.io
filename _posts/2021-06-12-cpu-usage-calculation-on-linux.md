@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CPU Usage Calculation on Linux"
+title: "CPU Usage Calculation using proc files"
 author: "Onur Sak"
 categories: unix
 tags: [cpu, cpu usage, hash, md5sum, sha256sum]
@@ -17,9 +17,9 @@ files according to given size and count
 
 **4.** Calculating CPU usage of the process for the specific time interval
 
-# CPU usage calculation using proc files
+# Calculation with proc files
 
-**1.** Reading below values from /proc/pid/statfile: (# indicates the column number in the stat file)
+**1.** Reading below values from /proc/pid/stat file: (# indicates the column number in the stat file)
 
 - Utime (#14): Amount of time that this process has been scheduled in user mode, measured in clock ticks
 - Stime (#15): Amount of time that this process has been scheduled in kernel mode, measured in clock ticks
@@ -66,13 +66,13 @@ Above command gives us accumulated times for process and its all child processes
 
 Fixed file size: 10mb
 
-| File count | CPU usage | File count |
-| ---------- | --------- | ---------- |
-| 30         | %48       | 30         |
-| 60         | %49       | 60         |
-| 120        | %49       | 120        |
-| 300        | %46       | 300        |
-| 500        | %47       | 500        |
+| File count | CPU usage |
+| ---------- | --------- |
+| 30         | %48       |
+| 60         | %49       |
+| 120        | %49       |
+| 300        | %46       |
+| 500        | %47       |
 
 ---
 
