@@ -66,13 +66,13 @@ Above command gives us accumulated times for process and its all child processes
 
 Fixed file size: 10mb
 
-| File count | CPU usage |
-| ---------- | --------- |
-| 30         | %48       |
-| 60         | %49       |
-| 120        | %49       |
-| 300        | %46       |
-| 500        | %47       |
+| File count | CPU usage | File count |
+| ---------- | --------- | ---------- |
+| 30         | %48       | 30         |
+| 60         | %49       | 60         |
+| 120        | %49       | 120        |
+| 300        | %46       | 300        |
+| 500        | %47       | 500        |
 
 ---
 

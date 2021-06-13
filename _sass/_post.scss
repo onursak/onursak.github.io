@@ -4,11 +4,11 @@
 
 .post-date {
   display: block;
-  margin-top:3px;
+  margin-top: 3px;
   margin-bottom: 1rem;
   color: $light-gray-color;
   font-family: $sans-serif-font-family;
-  font-size:0.8rem;
+  font-size: 0.8rem;
 }
 
 @media (max-width: $elements-responsive-width) {
@@ -28,4 +28,43 @@
 
 .related-posts a {
   text-decoration: none;
+}
+
+table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+thead tr {
+  background-color: #303233;
+  color: #ffffff;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  font-size: 13px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid #303233;
+}
+
+tbody tr.active-row {
+  font-weight: bold;
+  color: #303233;
 }
