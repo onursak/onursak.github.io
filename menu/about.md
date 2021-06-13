@@ -1,9 +1,20 @@
 ---
 layout: page
-title: Welcome to Lagrange!
+title: Welcome to my blog!
 permalink: /about
 ---
 
-Lagrange is a minimalist Jekyll theme. The purpose of this theme is to provide a simple, clean, content-focused blogging platform for your personal site or blog. Below you can find everything you need to get started.
+Hi, my name is Onur and I'm a software engineer. Currently, I'm working at Ericsson as a software developer. This is my personal blog on programming, unix and other software engineering stuff. I'm planning to write about my solutions to problems that I faced while working. So, this blog will be a mirror of my personal development while I'm helping you as well.
 
-This theme is completely free and open source software. You may use it however you want, as it is distributed under the [MIT License](http://choosealicense.com/licenses/mit/). If you are having any problems, any questions or suggestions, feel free to [tweet at me](https://twitter.com/intent/tweet?text=My%question%about%Lagrange%is:%&via=paululele), or [file a GitHub issue](https://github.com/lenpaul/lagrange/issues/new).
+If I were to talk about myself briefly(if anyone cares :D): I have always been interested in computers since my childhood. When I was 11, I used to develop simple websites with HTML. Later, I wanted to learn C++, but I couldn't achive this goal. Unfortunately, when I went to high school, I couldn't devote enough time to programming. But I was able to continue my childhood passion by studying computer engineering at university. Now, I'm a computer engineer, finally!
+
+My main interests:
+
+- Java
+- JVM
+- Design Patterns
+- Spring Framework
+- Object Oriented Design & Programming
+- SOLID
+- Clean & Maintainable Code
+- Unix
