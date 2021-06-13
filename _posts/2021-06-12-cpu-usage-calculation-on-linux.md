@@ -54,7 +54,7 @@ files according to given size and count
 
 # Alternative method
 
-```
+```bash
 /usr/bin/time bash myshell.sh
 ```
 
