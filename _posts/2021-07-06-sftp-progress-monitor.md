@@ -93,13 +93,18 @@ Let's trace what's happening by simplifying:
 
 ```java
 
-    // When we call get(...) method with above parameters, monitor object's methods will be called like this:
+    // When we call get(...) method with above parameters, monitor object's
+    // methods will be called like this:
 
     // init method will be called at the beginning of the get(...) method
     monitor.init(SftpProgressMonitor.GET, "/source/test.txt", "/target/test.txt", 104857600); // 104857600 is the size in bytes of the source file which is 100 MB
 
-    // count method will be called at each iteration during file transfering, the given parameter is the byte size is transfered in an iteration
-    // if the mode is RESUME then get method will check the dest file is already there and if it is, then the count method will be called with already transferred bytes at the beginning, and continues to increment at each iteration
+    // count method will be called at each iteration during file transfer, the
+    // given parameter is the byte size is transfered in an iteration
+    // if the mode is RESUME then get method will check the dest file is already
+    // there and if it is, then the count method will be called with already
+    // transferred bytes at the beginning, and continues to increment at each
+    // iteration
     monitor.count(10000); // 10000 is a fake number, don't focus on it
 
     // end method will be called when the transfer is finished
@@ -165,7 +170,8 @@ public class MySftpProgressMonitor implements SftpProgressMonitor {
         return true;
     }
 
-    // Reset the values, so the same MySftpProgressMonitor object can be reused within same thread
+    // Reset the values, so the same MySftpProgressMonitor object can be reused
+    // within same thread
     @Override
     public void end() {
         this.totalBytes = 0;
@@ -173,7 +179,9 @@ public class MySftpProgressMonitor implements SftpProgressMonitor {
         this.progress = 0;
     }
 
-    // Provide getters, so you can retrieve the informations only when it is needed, now this class is only responsible for tracking information not for printing/logging etc.
+    // Provide getters, so you can retrieve the informations only when it is
+    // needed, now this class is only responsible for tracking information not
+    // for printing/logging etc.
     public long getTotalBytes(){
         return this.totalBytes;
     }
