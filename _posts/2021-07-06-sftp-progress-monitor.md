@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Monitoring Download/Upload Progress using JSch Library"
+title: "Monitoring download/upload progress using JSch library"
 author: "Onur Sak"
 categories: java
 tags: [java, ssh, sftp, exec, jsch]
@@ -59,9 +59,9 @@ Let's look at following method signatures from ChannelSftp class:
 
 ```
 
-(In the rest of the post when I mention get(...) or put(...), I mean the above method signatures)
+(In the rest of the post when I mention get(...) or put(...), I'll mean the above method signatures)
 
-If you notice that there is a parameter of type SftpProgressMonitor. SftpProgressMonitor is an interface provided by JSch. Library says that "Hey, give me the your implementation of this interface and I will use its methods when executing get(...) and put(...) methods" So, let's look at SftpProgressMonitor interface:
+If you notice that there is a parameter of type SftpProgressMonitor. SftpProgressMonitor is an interface provided by JSch. Library says that "Hey, give me your implementation of this interface and I will use its methods when executing get(...) and put(...) methods" So, let's look at SftpProgressMonitor interface:
 
 ```java
 
@@ -97,7 +97,8 @@ Let's trace what's happening by simplifying:
     monitor.init(SftpProgressMonitor.GET, "/source/test.txt", "/target/test.txt", 104857600); // 104857600 is the size in bytes of the source file which is 100 MB
 
     // count method will be called at each iteration during file transfering, the given parameter is the byte size is transfered in an iteration
-    monitor.init();
+    // if the mode is RESUME then get method will check the dest file is already there and if it is, then the count method will be called with already transferred bytes at the beginning, and continues to increment at each iteration
+    monitor.count(10000); // 10000 is a fake number, don't focus on it
 
     // end method will be called when the transfer is finished
     monitor.end();
