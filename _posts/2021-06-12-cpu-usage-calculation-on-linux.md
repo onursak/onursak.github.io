@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CPU Usage Calculation Using Proc Files"
+title: "CPU usage calculation using proc files"
 author: "Onur Sak"
 categories: unix
 tags: [cpu, cpu usage, hash, md5sum, sha256sum]
