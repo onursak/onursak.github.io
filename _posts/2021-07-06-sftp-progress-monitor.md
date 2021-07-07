@@ -15,19 +15,19 @@ Following code demonstrates that how we can do this using JSch. (Of course, foll
 
 ```java
 
-    public Session connectSession() throws JSchException {
-        JSch jsch = new JSch();
-        Properties config = new Properties();
-        // Disable StrictHostKeyChecking to directly connect using username and
-        // password, it's not a good practice for security concerns, not
-        // recommended when you are not working in internal network etc.
-        config.put("StrictHostKeyChecking", "no");
-        Session session = jsch.getSession("username", "host", 22);
-        session.setConfig(config);
-        session.setPassword("password");
-        session.connect();
-        return session;
-    }
+public Session connectSession() throws JSchException {
+    JSch jsch = new JSch();
+    Properties config = new Properties();
+    // Disable StrictHostKeyChecking to directly connect using username and
+    // password, it's not a good practice for security concerns, not
+    // recommended when you are not working in internal network etc.
+    config.put("StrictHostKeyChecking", "no");
+    Session session = jsch.getSession("username", "host", 22);
+    session.setConfig(config);
+    session.setPassword("password");
+    session.connect();
+    return session;
+}
 
 ```
 
