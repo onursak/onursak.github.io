@@ -1,49 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://onursak.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://onursak.github.io/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2021-07-24T10:41:35+00:00</updated><id>https://onursak.github.io/feed.xml</id><title type="html">Onur.out</title><subtitle>Modest software development blog.</subtitle><author><name>Onur Sak</name><email>onursak@outlook.com.tr</email></author><entry><title type="html">Environment variable trick on Linux</title><link href="https://onursak.github.io/env-variable-trick-on-linux/" rel="alternate" type="text/html" title="Environment variable trick on Linux" /><published>2021-07-24T00:00:00+00:00</published><updated>2021-07-24T00:00:00+00:00</updated><id>https://onursak.github.io/env-variable-trick-on-linux</id><content type="html" xml:base="https://onursak.github.io/env-variable-trick-on-linux/">&lt;p&gt;Hi, In this post I’m going to show you a trick which can be useful in some circumstances. Okay, let me make it more clear with a scenario. Consider following scenario:&lt;/p&gt;
-
-&lt;p&gt;Assume that you want to run a shell script on Linux. And you don’t have permission to modify this script file. There might be some check(e.g. hash) to avoid modification. And shell script is like following:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# YOU SHALL NOT CHANGE THIS FILE!&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;which java&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;$java&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-cp&lt;/span&gt; /path/to/classes MySimpleApp
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It is very trivial script, right? Using &lt;strong&gt;which&lt;/strong&gt; command, we looked up the PATH environment variable for where &lt;strong&gt;java&lt;/strong&gt; executable is placed. So, what is the problem here? Or, is there any problem here?&lt;/p&gt;
-
-&lt;p&gt;Actually, it depends. Might the answer related to Java versions? What if you have to execute the above shell script as &lt;strong&gt;root&lt;/strong&gt; user and with Java 11. But wait, Java 8 is default for &lt;strong&gt;root&lt;/strong&gt; user. Hmm, it is trivial, I can change the root user’s PATH variable .bashrc file, right? Yes, it can &lt;strong&gt;BUT&lt;/strong&gt; please &lt;strong&gt;DON’T&lt;/strong&gt;. Because there could be running services relies on Java 8. And if you alter the PATH variable in the .bashrc file, every services and shell sessions(as root user) will be affected. We don’t want that, we don’t want to break existing things in the system.&lt;/p&gt;
-
-&lt;p&gt;Well, you may say “You’ve made me upset! What can I do?”. Okay the trick is altering the PATH varible temporarily. We can give the environment variables while executing &lt;strong&gt;sudo&lt;/strong&gt; command. Like following:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/opt/java11/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; bash my_shell_script.sh
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;That’s it! Now, it is running with Java 11 temporarily. You didn’t alter any environment variable permanently.&lt;/p&gt;
-
-&lt;p&gt;The above one is first approach and there is an alternative:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-su - root
-
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/opt/java11/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; 
-
-bash my_shell_script.sh
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;First, open a login shell with &lt;strong&gt;“su -“&lt;/strong&gt; as root user. Then export a environment variable like we did in sudo command. This change is also temporary and specific to shell session and it expires when the shell session is closed. Then finally, execute the target shell script.&lt;/p&gt;
-
-&lt;p&gt;This is the final of the post, hope you enjoyed! Please feel free to contact me if you have any suggestions, questions, concerns.&lt;/p&gt;</content><author><name>Onur Sak</name></author><category term="unix" /><category term="environment variable" /><category term="env" /><category term="environment" /><category term="path variable" /><category term="java_home" /><category term="path" /><category term="export" /><category term="linux" /><category term="unix" /><summary type="html">Hi, In this post I’m going to show you a trick which can be useful in some circumstances. Okay, let me make it more clear with a scenario. Consider following scenario:</summary></entry><entry><title type="html">Monitoring download/upload progress using JSch library</title><link href="https://onursak.github.io/sftp-progress-monitor/" rel="alternate" type="text/html" title="Monitoring download/upload progress using JSch library" /><published>2021-07-06T00:00:00+00:00</published><updated>2021-07-06T00:00:00+00:00</updated><id>https://onursak.github.io/sftp-progress-monitor</id><content type="html" xml:base="https://onursak.github.io/sftp-progress-monitor/">&lt;p&gt;In this post, I’m going to show how to monitor progress of download/upload using JSch library in Java. Let’s see how step by step:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://onursak.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://onursak.github.io/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2021-07-23T23:08:22+00:00</updated><id>https://onursak.github.io/feed.xml</id><title type="html">Onur.out</title><subtitle>Modest software development blog.</subtitle><author><name>Onur Sak</name><email>onursak@outlook.com.tr</email></author><entry><title type="html">Monitoring download/upload progress using JSch library</title><link href="https://onursak.github.io/sftp-progress-monitor/" rel="alternate" type="text/html" title="Monitoring download/upload progress using JSch library" /><published>2021-07-06T00:00:00+00:00</published><updated>2021-07-06T00:00:00+00:00</updated><id>https://onursak.github.io/sftp-progress-monitor</id><content type="html" xml:base="https://onursak.github.io/sftp-progress-monitor/">&lt;p&gt;In this post, I’m going to show how to monitor progress of download/upload using JSch library in Java. Let’s see how step by step:&lt;/p&gt;
 
 &lt;h2 id=&quot;1-establishing-ssh-connection&quot;&gt;1. Establishing SSH connection&lt;/h2&gt;
 
 &lt;p&gt;Before using SFTP, first we need to establish SSH connection to the remote host.
-Following code demonstrates that how we can do this using JSch. (Of course, following codes don’t have any concern of following good coding practices. So, when you implement your code, please consider making your methods more modular, parameterized etc.)&lt;/p&gt;
+Following code demonstrates that how we can do this using JSch. (Of course, following codes don’t have any concern of following good coding practices. So, when you implement your code, please consider making your methods more modular, parametirezed etc.)&lt;/p&gt;
 
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Session&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;connectSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;JSchException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
