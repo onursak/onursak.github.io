@@ -1,6 +1,13 @@
 [
   
     {
+      "title"    : "Environment variable trick on Linux",
+      "tags"     : "environment variable, env, environment, path variable, java_home, path, export, linux, unix",
+      "url"      : "/env-variable-trick-on-linux/",
+      "date"     : "2021-07-24 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Monitoring download/upload progress using JSch library",
       "tags"     : "java, ssh, sftp, exec, jsch",
       "url"      : "/sftp-progress-monitor/",
