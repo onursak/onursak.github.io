@@ -1,6 +1,13 @@
 [
   
     {
+      "title"    : "Pagination without count query in Spring Data JPA",
+      "tags"     : "spring boot, spring framework, java, jpa, spring data jpa, pagination, optimization, pageable",
+      "url"      : "/pagination-without-count-query-in-spring-data-jpa/",
+      "date"     : "2022-02-19 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Environment variable trick on Linux",
       "tags"     : "environment variable, env, environment, path variable, java_home, path, export, linux, unix",
       "url"      : "/env-variable-trick-on-linux/",
