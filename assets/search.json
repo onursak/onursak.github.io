@@ -1,6 +1,13 @@
 [
   
     {
+      "title"    : "Dockerizing Oracle Enterprise Edition",
+      "tags"     : "docker, oracle enterprise edition, oracle database, dockerizing",
+      "url"      : "/dockerizing-oracle-enterprise-edition/",
+      "date"     : "2022-04-06 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Pagination without count query in Spring Data JPA",
       "tags"     : "spring boot, spring framework, java, jpa, spring data jpa, pagination, optimization, pageable",
       "url"      : "/pagination-without-count-query-in-spring-data-jpa/",

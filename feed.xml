@@ -1,4 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2022-02-19T21:53:37+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">just another dev blog</title><subtitle>Modest software development blog.</subtitle><author><name>Onur Sak</name><email>onursak@outlook.com.tr</email></author><entry><title type="html">Pagination without count query in Spring Data JPA</title><link href="http://localhost:4000/pagination-without-count-query-in-spring-data-jpa/" rel="alternate" type="text/html" title="Pagination without count query in Spring Data JPA" /><published>2022-02-19T00:00:00+00:00</published><updated>2022-02-19T00:00:00+00:00</updated><id>http://localhost:4000/pagination-without-count-query-in-spring-data-jpa</id><content type="html" xml:base="http://localhost:4000/pagination-without-count-query-in-spring-data-jpa/">&lt;p&gt;Hi, in this post I’m going to show you how to implement pagination without count query. By default, Spring Data JPA doesn’t provide pagination method without count query when one want to use &lt;em&gt;Specification&amp;lt;T&amp;gt;&lt;/em&gt; interface in methods. Yes, there are methods that return &lt;em&gt;Slice&amp;lt;T&amp;gt;&lt;/em&gt;, but there isn’t any method that returns &lt;em&gt;Slice&amp;lt;T&amp;gt;&lt;/em&gt; when we want to use &lt;em&gt;Specification&amp;lt;T&amp;gt;&lt;/em&gt;. In this post, we’re going to implement our own &lt;em&gt;Repository&amp;lt;T&amp;gt;&lt;/em&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en-US" /><updated>2022-04-06T18:15:09+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">just another dev blog</title><subtitle>Modest software development blog.</subtitle><author><name>Onur Sak</name><email>onursak@outlook.com.tr</email></author><entry><title type="html">Dockerizing Oracle Enterprise Edition</title><link href="http://localhost:4000/dockerizing-oracle-enterprise-edition/" rel="alternate" type="text/html" title="Dockerizing Oracle Enterprise Edition" /><published>2022-04-06T00:00:00+00:00</published><updated>2022-04-06T00:00:00+00:00</updated><id>http://localhost:4000/dockerizing-oracle-enterprise-edition</id><content type="html" xml:base="http://localhost:4000/dockerizing-oracle-enterprise-edition/">&lt;h3 id=&quot;1-docker-image-for-oracle-enterprise-edition&quot;&gt;1. Docker image for Oracle Enterprise Edition&lt;/h3&gt;
+
+&lt;p&gt;Not suprisingly, first you need to get a docker image for Oracle Enterprise Edition. Since this version is a paid version, you should get the image from some private repository. It could be your organization’s private Docker repository etc. For instance in my case, I obtain the image for &lt;em&gt;Oracle Enterprise Edition 12.2.0.1&lt;/em&gt; from my organization’s Azure Docker Registry.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-running-docker-container&quot;&gt;2. Running Docker container&lt;/h3&gt;
+
+&lt;p&gt;After getting image properly now we can run the container. But before getting into this, you’ll probably want to initialize your database with some SQL scripts, won’t you?&lt;/p&gt;
+
+&lt;p&gt;For this purpose, we need to place our scripts in folder &lt;strong&gt;/opt/oracle/scripts/setup&lt;/strong&gt; or &lt;strong&gt;/opt/oracle/scripts/startup&lt;/strong&gt; in container. You can mount script folder to one of them.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/oracle/scripts/setup -&amp;gt; Scripts will be run only during the initial database creation.
+/opt/oracle/scripts/startup -&amp;gt; Scripts will be run after the initial database creation is complete.
+/docker-entrypoint-initdb.d -&amp;gt; Symbolic link that references /opt/oracle/scripts, you can also put scripts by using this symbolic link
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can name your scripts with prefix to specift execution order like following:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;01_create_tablespaces.sql
+02_create_user.sql
+.
+.
+.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You might need to add the following line on top of your all scripts:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ALTER SESSION SET CONTAINER=PDB_NAME;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To avoid data loss upon container restart, we can mount a directory to &lt;strong&gt;/opt/oracle/oradata&lt;/strong&gt; folder inside container. If you don’t do this, actually you’ll also end up with “No space left” error especially if you create tablespace in your scripts. To avoid permission denied errors, you should change owner of the mounted directory on the host.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;chown &lt;/span&gt;54321:54322 /path/to/mounted/folder
+
+&lt;span class=&quot;c&quot;&gt;#54321 is the uid of oracle user inside the container&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#54322 is the gid of the dba group inside the container&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Full docker run command to start a container:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; myoracledb &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 1521:1521 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 5500:5500 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /path/to/scripts:/opt/oracle/scripts/startup &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /path/to/data:/opt/oracle/oradata &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ORACLE_SID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;orcl &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ORACLE_PDB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ORCLPDB &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ORACLE_PWD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;password &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+cool_name_of_image:12.2.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can follow the logs during the creation of container:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker logs &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; myoracledb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;https://docs.oracle.com/en/database/oracle/oracle-database/21/deeck/oracle-database-enterprise-edition-installation-guide-docker-containers-oracle-linux.pdf&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Onur Sak</name></author><category term="docker" /><category term="docker" /><category term="oracle enterprise edition" /><category term="oracle database" /><category term="dockerizing" /><summary type="html">1. Docker image for Oracle Enterprise Edition</summary></entry><entry><title type="html">Pagination without count query in Spring Data JPA</title><link href="http://localhost:4000/pagination-without-count-query-in-spring-data-jpa/" rel="alternate" type="text/html" title="Pagination without count query in Spring Data JPA" /><published>2022-02-19T00:00:00+00:00</published><updated>2022-02-19T00:00:00+00:00</updated><id>http://localhost:4000/pagination-without-count-query-in-spring-data-jpa</id><content type="html" xml:base="http://localhost:4000/pagination-without-count-query-in-spring-data-jpa/">&lt;p&gt;Hi, in this post I’m going to show you how to implement pagination without count query. By default, Spring Data JPA doesn’t provide pagination method without count query when one want to use &lt;em&gt;Specification&amp;lt;T&amp;gt;&lt;/em&gt; interface in methods. Yes, there are methods that return &lt;em&gt;Slice&amp;lt;T&amp;gt;&lt;/em&gt;, but there isn’t any method that returns &lt;em&gt;Slice&amp;lt;T&amp;gt;&lt;/em&gt; when we want to use &lt;em&gt;Specification&amp;lt;T&amp;gt;&lt;/em&gt;. In this post, we’re going to implement our own &lt;em&gt;Repository&amp;lt;T&amp;gt;&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;If we take a look at SimpleJpaRepository’s readPage method:&lt;/p&gt;
 
