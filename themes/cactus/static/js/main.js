@@ -58,7 +58,16 @@ $(document).ready(function() {
       $(window).on("scroll", function() {
         var topDistance = menu.offset().top;
 
-        nav.show()
+        // hide only the navigation links on desktop
+        if (!nav.is(":visible") && topDistance < 50) {
+          nav.show();
+          console.log(topDistance)
+          console.log("Make visible nav")
+        } else if (nav.is(":visible") && topDistance > 100) {
+          nav.hide();
+          console.log(topDistance)
+          console.log("Disable nav")
+        }
 
         // on tablet, hide the navigation icon as well and show a "scroll to top
         // icon" instead
