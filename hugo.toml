@@ -31,7 +31,7 @@ weight = 3
     lineNos = true
     lineNumbersInTable = false
     noClasses = true
-    style = "dracula"
+    style = "github"
     tabWidth = 4
 
 [params]
